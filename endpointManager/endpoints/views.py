@@ -22,4 +22,9 @@ class UrlCreateView(generics.CreateAPIView):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         return Response({"Url created succesfully"}, status=status.HTTP_201_CREATED)
-        
+
+class UserUrlView(generics.ListAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = UrlSerializer
+    def get_queryset(self):
+        return Url.objects.filter(user=self.request.user)
