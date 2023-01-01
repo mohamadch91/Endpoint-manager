@@ -5,6 +5,7 @@ from django.db import models
 from auth.models import User
 
 class Url(models.Model):
+    id=models.AutoField(primary_key=True)
     url = models.CharField(max_length=200, blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     fail_limit = models.IntegerField(default=0)
