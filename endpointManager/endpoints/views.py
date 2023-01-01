@@ -8,20 +8,26 @@ from auth.models import User
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
-from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken, OutstandingToken
+from django.shortcuts import get_object_or_404
 
 class UrlCreateView(generics.CreateAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = UrlSerializer   
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        return Response({"Url created succesfully"}, status=status.HTTP_201_CREATED)
+    def post(self, request):
+        data = request.data
+        data['user'] = request.user.id
+        serializer = self.serializer_class(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            user=User.objects.get(id=request.user.id)
+            user.url_count+=1
+            user.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        
 
 class UserUrlView(generics.ListAPIView):
     permission_classes = (IsAuthenticated,)
@@ -33,4 +39,11 @@ class UrlStatsView(generics.RetrieveAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = UrlSerializer
     def get_queryset(self):
-        return Url.objects.filter(user=self.request.user)
+        url=get_object_or_404(Url,pk=self.kwargs['pk'])
+        response={
+            'success_count':url.success_count,
+            'fail_count':url.fail_count,
+            'fail_limit':url.fail_limit,
+            'total_count':url.success_count+url.fail_count
+        }
+        return Response(response,status=status.HTTP_200_OK)
