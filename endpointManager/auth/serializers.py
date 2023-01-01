@@ -1,9 +1,8 @@
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
-from authen.models import User
+from .models import User
 
-from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.hashers import make_password
 
@@ -15,7 +14,7 @@ import json
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['pk','password','owner','is_active','is_superuser','name','facilityid','username','idnumber','position','phone','facadmin','itemadmin','reportadmin','useradmin','created_at','updated_at']
+        fields = ['pk','password','is_active','is_superuser','name','username','created_at','updated_at']
         extra_kwargs = {'password': {'write_only': True}}
         read_only_fields = ['created_at','updated_at']
 
@@ -24,7 +23,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = User
-        fields = ['pk','password','owner','is_active','name','facilityid','username','idnumber','position','phone','facadmin','itemadmin','reportadmin','useradmin','created_at','updated_at']
+        fields = ['pk','password','is_active','name','username','created_at','updated_at']
         extra_kwargs = {'password': {'write_only': True}}
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
@@ -34,7 +33,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 class UpdateUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['pk','password','is_active','name','facilityid','username','idnumber','position','phone','facadmin','itemadmin','reportadmin','useradmin','created_at','updated_at']
+        fields = ['pk','password','is_active','name','username','created_at','updated_at']
         extra_kwargs = {
             'first_name': {'required': True},
             'last_name': {'required': True},
