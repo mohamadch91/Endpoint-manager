@@ -28,3 +28,9 @@ class UserUrlView(generics.ListAPIView):
     serializer_class = UrlSerializer
     def get_queryset(self):
         return Url.objects.filter(user=self.request.user)
+
+class UrlStatsView(generics.RetrieveAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = UrlSerializer
+    def get_queryset(self):
+        return Url.objects.filter(user=self.request.user)
