@@ -75,6 +75,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'auth',
+    'endpoint',
+    'warning',
     'corsheaders',
     'rest_framework_simplejwt.token_blacklist',
     
