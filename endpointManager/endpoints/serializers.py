@@ -13,3 +13,4 @@ class UrlSerializer(serializers.ModelSerializer):
             'fail_limit': {'required': True},
         }
         read_only_fields = ['created_at','updated_at']
+

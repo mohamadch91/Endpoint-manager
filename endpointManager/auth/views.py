@@ -19,7 +19,6 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken, OutstandingToken
-import copy
 
 class RegisterView(generics.CreateAPIView):
     permission_classes = (AllowAny,)
