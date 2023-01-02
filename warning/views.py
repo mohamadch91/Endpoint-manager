@@ -2,7 +2,7 @@ from .serializers import GetWarningSerializer, WarningSerializer
 from rest_framework.permissions import AllowAny
 
 from .models import Warning
-from auth.models import User
+from authen.models import User
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView

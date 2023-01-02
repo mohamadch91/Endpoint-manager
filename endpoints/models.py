@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 
-from auth.models import User
+from authen.models import User
 
 class Url(models.Model):
     id=models.AutoField(primary_key=True)
