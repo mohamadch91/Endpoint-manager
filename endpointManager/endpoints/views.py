@@ -29,7 +29,7 @@ class UrlCreateView(generics.CreateAPIView):
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         return Response({"message":"You have reached the limit of 20 urls"}, status=status.HTTP_400_BAD_REQUEST)
-        
+
         
         
 
@@ -56,9 +56,5 @@ class CallUrlView(APIView):
     permission_classes = (AllowAny,)
     def get(self, request, *args, **kwargs):
         url=get_object_or_404(Url,pk=self.kwargs['pk'])
-        if url.fail_count<url.fail_limit:
-            url.success_count+=1
-            url.save()
-            return Response({"message":"success"},status=status.HTTP_200_OK)
-        else:
-            return Response({"message":"fail"},status=status.HTTP_400_BAD_REQUEST)
+        pass
+        
