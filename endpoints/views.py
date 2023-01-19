@@ -51,9 +51,9 @@ class UrlStatsView(generics.RetrieveAPIView):
                 response=[]
                 for request in requests:
                     status_code=request.status_code
-                    status="success" if status_code>=200 and status<300 else "fail"
+                    status_type="success" if status_code>=200 and status<300 else "fail"
                     url=request.url.address
-                    response.append({"status":status,"url":url,"status_code":status_code,"created_at":request.created_at})
+                    response.append({"status":status_type,"url":url,"status_code":status_code,"created_at":request.created_at})
                 return Response(response, status=status.HTTP_200_OK)
             else:
                 response={"message":"No requests found  for this url"}
@@ -144,5 +144,13 @@ class CallUrlView(APIView):
         return Response(["GET","OPTIONS"], status=status.HTTP_202_ACCEPTED)       
          
         
-        
-        
+class UrlWarningView(generics.ListAPIView):
+    permission_classes = (IsAuthenticated,)
+    def get (self,request):        
+        url=get_object_or_404(Url,pk=self.kwargs['pk'])
+        if(url.user == request.user):
+            pass
+        else:
+            response={"message":"You are not authorized to view this url"}
+            return Response(response, status=status.HTTP_400_BAD_REQUEST)
+            
