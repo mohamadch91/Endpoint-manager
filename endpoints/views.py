@@ -66,6 +66,9 @@ class CallUrlView(APIView):
     permission_classes = (AllowAny,)
     def get(self, request, *args, **kwargs):
         url=get_object_or_404(Url,addres=self.kwargs['url'])
+        url.success_count+=1
+        url.save()
+        
         data={
             "url":url.id,
             "status_code":200
@@ -79,6 +82,8 @@ class CallUrlView(APIView):
         return Response("Success", status=status.HTTP_200_OK)
     def post(self, request, *args, **kwargs):
         url=get_object_or_404(Url,addres=self.kwargs['url'])
+        url.fail_count+=1
+        url.save()
         data={
             "url":url.id,
             "status_code":400
@@ -92,6 +97,8 @@ class CallUrlView(APIView):
         return Response("Fail", status=status.HTTP_400_BAD_REQUEST)
     def put(self, request, *args, **kwargs):
         url=get_object_or_404(Url,addres=self.kwargs['url'])
+        url.fail_count+=1
+        url.save()
         data={
             "url":url.id,
             "status_code":403
@@ -105,6 +112,8 @@ class CallUrlView(APIView):
         return Response("Fail", status=status.HTTP_403_FORBIDDEN)
     def delete(self, request, *args, **kwargs):
         url=get_object_or_404(Url,addres=self.kwargs['url'])
+        url.fail_count+=1
+        url.save()
         data={
             "url":url.id,
             "status_code":406
@@ -118,6 +127,8 @@ class CallUrlView(APIView):
         return Response("Fail", status=status.HTTP_406_NOT_ACCEPTABLE)        
     def patch(self, request, *args, **kwargs):
         url=get_object_or_404(Url,addres=self.kwargs['url'])
+        url.fail_count+=1
+        url.save()
         data={
             "url":url.id,
             "status_code":503
@@ -131,6 +142,8 @@ class CallUrlView(APIView):
         return Response("Fail", status=status.HTTP_503_SERVICE_UNAVAILABLE)       
     def options(self, request, *args, **kwargs):
         url=get_object_or_404(Url,addres=self.kwargs['url'])
+        url.success_count+=1
+        url.save()
         data={
             "url":url.id,
             "status_code":202
