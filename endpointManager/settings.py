@@ -75,7 +75,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'authen',
     'endpoints',
-    'warning',
     'corsheaders',
     'rest_framework_simplejwt.token_blacklist',
     
