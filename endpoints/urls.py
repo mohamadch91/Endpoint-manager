@@ -3,11 +3,11 @@ from .views import *
 
 
 urlpatterns = [
-    path('create/', UrlCreateView.as_view(), name='endpoint create'),
-    path('user_urls/', UserUrlView.as_view(), name='user endpoints'),
-    path('url_stats/<int:pk>/', UrlStatsView.as_view(), name='endpoint stats'),
-    path('<str:url>', UrlStatsView.as_view(), name='request url'),
-    path('warnings/<int:pk>/', UrlWarningView.as_view(), name='warnings'),
+    path('create/', EndpointCreateView.as_view(), name='endpoint create'),
+    path('user_endpoints/', UserEndpointView.as_view(), name='user endpoints'),
+    path('enpoint_stats/<int:pk>/', EndpointStatsView.as_view(), name='endpoint stats'),
+    path('<str:endpoint>', EndpointStatsView.as_view(), name='request Endpoint'),
+    path('warnings/<int:pk>/', EndpointWarningView.as_view(), name='warnings'),
     
     
     
