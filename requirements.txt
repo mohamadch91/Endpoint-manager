@@ -1,0 +1,10 @@
+Django
+django-cors-headers
+django-filter
+django-mssql-backend
+django-pyodbc
+django-pyodbc-azure
+djangorestframework
+djangorestframework-jwt
+djangorestframework-simplejwt
+django_extensions

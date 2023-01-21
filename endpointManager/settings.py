@@ -119,17 +119,6 @@ DATA_UPLOAD_MAX_NUMBER_FIELDS = 10240
 runserver.default_port= (8000)
 runserver.default_addr = ("0.0.0.0")
 
-# DATABASES = {
-#   'default': {
-#      'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'endpointManager',
-#         'USER': 'postgres',
-#         'PASSWORD': 'mohamad',
-#         'HOST': 'localhost',
-#         'PORT': '',
-# }
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
