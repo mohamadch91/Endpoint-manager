@@ -162,7 +162,18 @@ class EndpointWarningView(generics.ListAPIView):
     def get (self,request):        
         endpoint=get_object_or_404(Endpoint,pk=self.kwargs['pk'])
         if(endpoint.user == request.user):
-            pass
+            if (endpoint.fail_count>endpoint.fail_limit):
+                requests=Request.objects.filter(endpoint=endpoint,status_code__gte=300)
+                diffrence=endpoint.fail_count-endpoint.fail_limit
+                ans=[]
+                for i in range(diffrence):
+                    serializer=RequestSerializer(requests[-(i+1)])
+                    ans.append(serializer.data)
+                return Response(ans, status=status.HTTP_200_OK)
+                
+            else:
+                response={"message":"Endpoint is working properly"}
+                return Response(response, status=status.HTTP_200_OK)
         else:
             response={"message":"You are not authorized to view this endpoint"}
             return Response(response, status=status.HTTP_400_BAD_REQUEST)
