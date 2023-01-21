@@ -26,7 +26,7 @@ class EndpointSerializer(serializers.ModelSerializer):
 class RequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Request
-        fields = ['id','enpoint','status_code','created_at','updated_at']
+        fields = ['id','endpoint','status_code','created_at','updated_at']
         extra_kwargs = {
             'enpoint': {'required': True},
             'status_code': {'required': True},
