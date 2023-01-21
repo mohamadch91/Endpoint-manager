@@ -11,7 +11,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import get_object_or_404
 import datetime
-
+import copy
 class EndpointCreateView(generics.CreateAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = EndpointSerializer   
@@ -19,14 +19,18 @@ class EndpointCreateView(generics.CreateAPIView):
         user=get_object_or_404(User,pk=request.user.id)
         user_Endpoint=user.endpoint_count
         if user_Endpoint<20:
-            data=request.data
+            data=copy.deepcopy(request.data)
             data['user']=user.id
             serializer = EndpointSerializer(data=data)
             if serializer.is_valid():
                 user.endpoint_count+=1
                 user.save()
                 serializer.save()
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
+                response = {
+                    "message":"Endpoint created successfully",
+                    "data":serializer.data
+                }
+                return Response(response, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         return Response({"message":"You have reached the limit of 20 endpoints"}, status=status.HTTP_400_BAD_REQUEST)
 
