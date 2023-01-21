@@ -7,6 +7,4 @@ services:
     container_name: endpoint_manager
     ports:
       - 8000:8000
-    volumes:
-      - ./data:/data
-    
+   
