@@ -15,7 +15,7 @@ also you can create, update, delete and list endpoints.
     - [Endpoint warning](#endpoint-warning)
     - [Call endpoint](#call-endpoint)
   - [Documentation](#documentation)
-    - [Tables](#tables)
+    - [Database Tables](#database-tables)
       - [User](#user)
       - [Endpoint](#endpoint)
       - [Request](#request)
@@ -107,7 +107,7 @@ endpoint : endpoint address
 
 ## Documentation
 
-### Tables
+### Database Tables
 
 #### User
 
