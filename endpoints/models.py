@@ -16,7 +16,9 @@ class Endpoint(models.Model):
 
     class Meta:
         db_table = 'Endpoint'
-
+    
+    def __str__(self) -> str:
+        return self.user.username+":"+self.address
 class Request(models.Model):
     id=models.AutoField(primary_key=True,db_index=True)
     enpoint=models.ForeignKey(Endpoint,on_delete=models.CASCADE,blank=True,null=True,db_index=True)
@@ -26,3 +28,6 @@ class Request(models.Model):
     
     class Meta:
         db_table = 'Request'
+    
+    def __str__(self) -> str:
+        return self.enpoint.address
