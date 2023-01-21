@@ -17,7 +17,7 @@ class EndpointCreateView(generics.CreateAPIView):
     serializer_class = EndpointSerializer   
     def post(self, request):
         user=get_object_or_404(User,pk=request.user.id)
-        user_Endpoint=user.Endpoint_count
+        user_Endpoint=user.endpoint_count
         if user_Endpoint<20:
             data=request.data
             data['user']=user.id
