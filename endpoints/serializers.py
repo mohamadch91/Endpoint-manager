@@ -6,7 +6,7 @@ from .models import Endpoint,Request
 class EndpointSerializer(serializers.ModelSerializer):
     class Meta:
         model = Endpoint
-        fields = ['id','address','fail_limit','success_count','fail_count','created_at','updated_at']
+        fields = ['id','address','fail_limit','created_at','updated_at']
         extra_kwargs = {
             'address': {'required': True},
             'fail_limit': {'required': True},
