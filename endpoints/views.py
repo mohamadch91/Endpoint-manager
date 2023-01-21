@@ -1,6 +1,6 @@
 
 # Create your views here.
-from .serializers import EndpointSerializer,RequestSerializer
+from .serializers import EndpointSerializer,RequestSerializer,EndpointRegisterSerializer
 
 from .models import Endpoint,Request
 from authen.models import User
@@ -25,7 +25,7 @@ class EndpointCreateView(generics.CreateAPIView):
                 "fail_limit":request.data['fail_limit']
             }
             print(request_data)
-            serializer = EndpointSerializer(data=request_data)
+            serializer = EndpointRegisterSerializer(data=request_data)
             if serializer.is_valid():
                 user.endpoint_count+=1
                 user.save()
