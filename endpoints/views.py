@@ -65,7 +65,7 @@ class EndpointStatsView(generics.RetrieveAPIView):
 class CallEndpointView(APIView):
     permission_classes = (AllowAny,)
     def get(self, request, *args, **kwargs):
-        endpoint=get_object_or_404(Endpoint,addres=self.kwargs['endpoint'])
+        endpoint=get_object_or_404(Endpoint,address=self.kwargs['endpoint'])
         endpoint.success_count+=1
         endpoint.save()
         
