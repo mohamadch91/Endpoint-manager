@@ -76,6 +76,7 @@ INSTALLED_APPS = [
     'authen',
     'endpoints',
     'corsheaders',
+    'django_extensions',
     'rest_framework_simplejwt.token_blacklist',
     
 ]
