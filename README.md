@@ -4,6 +4,22 @@ This is a simple tool to manage endpoints in a RESTful API.
 you can signup and login to get a token to access the API.
 also you can create, update, delete and list endpoints.
 
+- [Endpoint manager](#endpoint-manager)
+  - [Installation](#installation)
+  - [Usage](#usage)
+    - [Signup](#signup)
+    - [Login](#login)
+    - [Create endpoint](#create-endpoint)
+    - [User endpoints](#user-endpoints)
+    - [Endpoint status](#endpoint-status)
+    - [Endpoint warning](#endpoint-warning)
+    - [Call endpoint](#call-endpoint)
+  - [Documentation](#documentation)
+    - [Tables](#tables)
+      - [User](#user)
+      - [Endpoint](#endpoint)
+      - [Request](#request)
+
 ## Installation
 
 ```bash
@@ -108,7 +124,6 @@ endpoint : endpoint address
 #### Endpoint
 
 | Field | Type | Description |
-
 | --- | --- | --- |
 | id | int | endpoint id |
 | address | varchar | endpoint address |
