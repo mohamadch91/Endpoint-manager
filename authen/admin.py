@@ -10,10 +10,10 @@ from .models import User
 @admin.register(User)
 class CustomUserAdmin(BaseUserAdmin):
     model = User
-    list_display = ( 'name','password','username' ,'created_at','updated_at')
-    list_filter = ( 'name','password','username' ,'created_at','updated_at')
+    list_display = ( 'name','password','username','endpoint_count' ,'created_at','updated_at')
+    list_filter = ( 'name','password','username','endpoint_count' ,'created_at','updated_at')
     fieldsets = (
-        ('infos', {'fields': ('name','password','username' )}),
+        ('infos', {'fields': ('name','password','username','endpoint_count' )}),
         ('Permissions', {
          'fields': ('is_staff', 'is_active', 'user_permissions')}),
     )

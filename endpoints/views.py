@@ -51,6 +51,7 @@ class UserEndpointView(generics.ListAPIView):
 class EndpointStatsView(generics.RetrieveAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = EndpointSerializer
+    queryset=Endpoint.objects.all()
     def get(self, request, *args, **kwargs):
         id=kwargs['pk']
         print(id)
@@ -62,7 +63,7 @@ class EndpointStatsView(generics.RetrieveAPIView):
                 response=[]
                 for request in requests:
                     status_code=request.status_code
-                    status_type="success" if status_code>=200 and status<300 else "fail"
+                    status_type="success" if status_code>=200 and status_code<300 else "fail"
                     endpoint=request.endpoint.address
                     response.append({"status":status_type,"endpoint":endpoint,"status_code":status_code,"created_at":request.created_at})
                 return Response(response, status=status.HTTP_200_OK)
@@ -92,7 +93,7 @@ class CallEndpointView(APIView):
         
         return Response("Success", status=status.HTTP_200_OK)
     def post(self, request, *args, **kwargs):
-        endpoint=get_object_or_404(Endpoint,addres=self.kwargs['endpoint'])
+        endpoint=get_object_or_404(Endpoint,address=self.kwargs['endpoint'])
         endpoint.fail_count+=1
         endpoint.save()
         data={
@@ -107,7 +108,7 @@ class CallEndpointView(APIView):
         
         return Response("Fail", status=status.HTTP_400_BAD_REQUEST)
     def put(self, request, *args, **kwargs):
-        endpoint=get_object_or_404(Endpoint,addres=self.kwargs['endpoint'])
+        endpoint=get_object_or_404(Endpoint,address=self.kwargs['endpoint'])
         endpoint.fail_count+=1
         endpoint.save()
         data={
@@ -122,7 +123,7 @@ class CallEndpointView(APIView):
         
         return Response("Fail", status=status.HTTP_403_FORBIDDEN)
     def delete(self, request, *args, **kwargs):
-        endpoint=get_object_or_404(Endpoint,addres=self.kwargs['endpoint'])
+        endpoint=get_object_or_404(Endpoint,address=self.kwargs['endpoint'])
         endpoint.fail_count+=1
         endpoint.save()
         data={
@@ -137,7 +138,7 @@ class CallEndpointView(APIView):
         
         return Response("Fail", status=status.HTTP_406_NOT_ACCEPTABLE)        
     def patch(self, request, *args, **kwargs):
-        endpoint=get_object_or_404(Endpoint,addres=self.kwargs['endpoint'])
+        endpoint=get_object_or_404(Endpoint,address=self.kwargs['endpoint'])
         endpoint.fail_count+=1
         endpoint.save()
         data={
@@ -152,7 +153,7 @@ class CallEndpointView(APIView):
         
         return Response("Fail", status=status.HTTP_503_SERVICE_UNAVAILABLE)       
     def options(self, request, *args, **kwargs):
-        endpoint=get_object_or_404(Endpoint,addres=self.kwargs['endpoint'])
+        endpoint=get_object_or_404(Endpoint,address=self.kwargs['endpoint'])
         endpoint.success_count+=1
         endpoint.save()
         data={
@@ -170,17 +171,30 @@ class CallEndpointView(APIView):
         
 class EndpointWarningView(generics.ListAPIView):
     permission_classes = (IsAuthenticated,)
-    def get (self,request):        
-        endpoint=get_object_or_404(Endpoint,pk=self.kwargs['pk'])
+    queryset = Endpoint.objects.all()
+    def get (self, request, *args, **kwargs):
+        id=self.kwargs['pk']
+        endpoint=get_object_or_404(Endpoint,id=id)
         if(endpoint.user == request.user):
             if (endpoint.fail_count>endpoint.fail_limit):
                 requests=Request.objects.filter(endpoint=endpoint,status_code__gte=300)
                 diffrence=endpoint.fail_count-endpoint.fail_limit
-                ans=[]
+                response=[]
+                length=requests.count()
                 for i in range(diffrence):
-                    serializer=RequestSerializer(requests[-(i+1)])
-                    ans.append(serializer.data)
-                return Response(ans, status=status.HTTP_200_OK)
+                    serializer=RequestSerializer(requests[length-i-1])
+                    serilizer_data=copy.deepcopy(serializer.data)
+                    del serilizer_data['id']
+                    del serilizer_data['endpoint']
+                    serilizer_data['endpoint']=endpoint.address
+                    serilizer_data['status']="Fail"
+                    response_data={
+                        "message":"Endpoint Fail Limit Exceeded",
+                        "data":serilizer_data
+                        
+                    }
+                    response.append(response_data)
+                return Response(response, status=status.HTTP_200_OK)
                 
             else:
                 response={"message":"Endpoint is working properly"}
