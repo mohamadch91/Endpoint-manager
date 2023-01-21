@@ -21,6 +21,7 @@ class EndpointCreateView(generics.CreateAPIView):
         if user_Endpoint<20:
             data=copy.deepcopy(request.data)
             data['user']=user.id
+            print(data)
             serializer = EndpointSerializer(data=data)
             if serializer.is_valid():
                 user.endpoint_count+=1

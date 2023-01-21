@@ -6,7 +6,7 @@ from authen.models import User
 
 class Endpoint(models.Model):
     id=models.AutoField(primary_key=True,db_index=True)
-    address = models.CharField(max_length=200, blank=True, null=True)
+    address = models.CharField(max_length=200, blank=True, null=True,unique=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True,db_index=True)
     fail_limit = models.IntegerField(default=0,db_index=True)
     success_count = models.IntegerField(default=0)
