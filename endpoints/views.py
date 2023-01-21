@@ -24,15 +24,16 @@ class EndpointCreateView(generics.CreateAPIView):
                 "address":request.data['address'],
                 "fail_limit":request.data['fail_limit']
             }
-            print(request_data)
             serializer = EndpointRegisterSerializer(data=request_data)
             if serializer.is_valid():
                 user.endpoint_count+=1
                 user.save()
                 serializer.save()
+                response_data=copy.deepcopy(serializer.data)
+                del response_data['user']
                 response = {
                     "message":"Endpoint created successfully",
-                    "data":serializer.data
+                    "data":response_data
                 }
                 return Response(response, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
