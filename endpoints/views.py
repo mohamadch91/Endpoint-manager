@@ -51,8 +51,10 @@ class UserEndpointView(generics.ListAPIView):
 class EndpointStatsView(generics.RetrieveAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = EndpointSerializer
-    def get_queryset(self):
-        endpoint=get_object_or_404(Endpoint,pk=self.kwargs['pk'])
+    def get(self, request, *args, **kwargs):
+        id=kwargs['pk']
+        print(id)
+        endpoint=get_object_or_404(Endpoint,id=id)
         if (endpoint.user==self.request.user):
             yesterday=datetime.datetime.now()-datetime.timedelta(days=1)
             requests=Request.objects.filter(endpoint=endpoint,created_at__gte=yesterday)
