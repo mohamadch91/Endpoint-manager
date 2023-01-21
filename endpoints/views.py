@@ -19,10 +19,13 @@ class EndpointCreateView(generics.CreateAPIView):
         user=get_object_or_404(User,pk=request.user.id)
         user_Endpoint=user.endpoint_count
         if user_Endpoint<20:
-            data=copy.deepcopy(request.data)
-            data['user']=user.id
-            print(data)
-            serializer = EndpointSerializer(data=data)
+            request_data={
+                "user":user.id,
+                "address":request.data['address'],
+                "fail_limit":request.data['fail_limit']
+            }
+            print(request_data)
+            serializer = EndpointSerializer(data=request_data)
             if serializer.is_valid():
                 user.endpoint_count+=1
                 user.save()
