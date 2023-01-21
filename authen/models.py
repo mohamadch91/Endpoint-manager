@@ -13,7 +13,6 @@ class User(AbstractUser):
 
     REQUIRED_FIELDS = []
     class Meta:
-        # managed = False
         db_table = 'User'
  
  
