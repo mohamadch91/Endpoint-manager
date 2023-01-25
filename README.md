@@ -9,6 +9,7 @@ also you can create, update, delete and list endpoints.
   - [Usage](#usage)
     - [Signup](#signup)
     - [Login](#login)
+    - [Logout](#logout)
     - [Create endpoint](#create-endpoint)
     - [User endpoints](#user-endpoints)
     - [Endpoint status](#endpoint-status)
@@ -56,6 +57,20 @@ Body:
 {
   "username": "username",
   "password": "password"
+}
+```
+
+### Logout
+
+Method: POST
+
+URL: /auth/logout
+
+Body:
+
+```json
+{
+  "refresh_token": "refresh_token"
 }
 ```
 
