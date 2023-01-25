@@ -17,6 +17,7 @@ class UserSerializer(serializers.ModelSerializer):
 # Register Serializer
 class RegisterSerializer(serializers.ModelSerializer):
     
+    
     class Meta:
         model = User
         fields = ['pk','name','username','password','created_at','updated_at']

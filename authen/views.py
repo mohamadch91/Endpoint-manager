@@ -6,7 +6,7 @@ from django.shortcuts import render
 from django.contrib.auth.hashers import make_password
 
 # Create your views here.
-from .serializers import ChangePasswordSerializer,UpdateUserSerializer,UserSerializer
+from .serializers import ChangePasswordSerializer,UpdateUserSerializer
 from rest_framework.permissions import AllowAny
 
 from .models import User
