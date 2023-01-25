@@ -81,7 +81,7 @@ class EndpointStatsView(generics.RetrieveAPIView):
                 return Response(response, status=status.HTTP_200_OK)
             else:
                 #if there are no requests
-                response={"message":"No requests found  for this endpoint"}
+                response={"message":"No requests found  for this endpoint in the last 24 hours"}
                 return Response(response, status=status.HTTP_204_NO_CONTENT)
             
         else:
