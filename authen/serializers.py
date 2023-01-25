@@ -1,14 +1,19 @@
 
 from rest_framework import serializers
 from .models import User
-from django.contrib.auth.password_validation import validate_password
-from django.contrib.auth.hashers import make_password
 
 
 
  ## define the serializer class for Ueser model    
 class UserSerializer(serializers.ModelSerializer):
+    """User serializer class
+
+    Args:
+        serializers (Django serializers): serilize the model
+    """
     class Meta:
+        """Meta class for UserSerializer
+        """
         model = User
         fields = ['pk','name','username','password','created_at','updated_at']
         extra_kwargs = {'password': {'write_only': True}}
@@ -16,66 +21,23 @@ class UserSerializer(serializers.ModelSerializer):
 
 # Register Serializer
 class RegisterSerializer(serializers.ModelSerializer):
-    
+    """Register serializer class for User registration
+
+    Args:
+        serializers (Django serializer): serialize the model
+
+    Returns:
+        _type_: User model
+    """
     
     class Meta:
         model = User
         fields = ['pk','name','username','password','created_at','updated_at']
         extra_kwargs = {'password': {'write_only': True}}
-    def create(self, validated_data):
+    def create(self, validated_data: dict) -> User:
+        """
+        Create and return a new `User` instance, given the validated data.
+        """
         user = User.objects.create_user(**validated_data)
         return user
 
-# user update serilizer         
-class UpdateUserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['pk','name','username','password','created_at','updated_at']
-        extra_kwargs = {
-            'first_name': {'required': True},
-            'last_name': {'required': True},
-            'password': {'required': False},
-        }
-
-    def validate_password(self, value: str) -> str:
-        """
-        Hash value passed by user.
-
-        :param value: password of a user
-        :return: a hashed version of the password
-        """
-        return make_password(value)    
-                
-        
-    
-    def update(self, instance, validated_data):
-        new_data={}
-        for key in validated_data.keys():
-            if validated_data[key] != None and validated_data[key] != "":
-                new_data[key]=validated_data[key]      
-        instance=super().update(instance, new_data)
-        instance.save()
-        return instance    
-# user change password serializer
-class ChangePasswordSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
-    old_password = serializers.CharField(write_only=True, required=True)
-
-    class Meta:
-        model = User
-        fields = ('old_password', 'password')
-
-    def validate(self, attrs):
-        return attrs
-
-    def validate_old_password(self, value):
-        user = self.context['request'].user
-        if not user.check_password(value):
-            raise serializers.ValidationError({"old_password": "Old password is not correct"})
-        return value
-
-    def update(self, instance, validated_data):
-
-        instance.set_password(validated_data['password'])
-        instance.save()
-        return instance      
