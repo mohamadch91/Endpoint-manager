@@ -8,3 +8,5 @@ djangorestframework
 djangorestframework-jwt
 djangorestframework-simplejwt
 django_extensions
+tzdata
+pytz
